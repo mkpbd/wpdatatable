@@ -20,6 +20,7 @@ class Person extends WP_List_Table{
 	   return [
 	   	    'cb' => '<input type="checkbox">',
 		   'name'=> 'Person Name',
+		   'sex'=> 'Gender',
 		   'email'=> 'Person Email',
 		   'age'=> 'Age'
 	   ];
@@ -31,6 +32,22 @@ class Person extends WP_List_Table{
 			'name'=>['n',true]
 		];
 	}
+	// for data filtering
+	function extra_tablenav( $which ) {
+   	    if('top' == $which):
+		?>
+		<div class="actions alignleft">
+			<select name="filter_s" id="filter_s">
+				<option value="All">All</option>
+				<option value="m">Male</option>
+				<option value="f">Female</option>
+			</select>
+			<?php submit_button('Filter','button','button',false); ?>
+		</div>
+	<?php
+
+	endif;
+   }
 
 	function column_cb( $item ) {
 	   return '<input type="checkbox" value="'.$item['id'].'">';
