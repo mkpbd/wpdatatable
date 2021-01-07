@@ -4,13 +4,15 @@ if(!class_exists('WP_List_Table')){
 }
 
 class Person extends WP_List_Table{
+	private  $_items;
    function __construct( $args = array() ) {
 	   parent::__construct( $args );
    }
 
 // data set here
    function set_data($data){
-   	    $this->items = $data;
+   	$this->items = $data;
+   	    //$this->items = $data;
    }
 
 // column set here
@@ -42,6 +44,14 @@ class Person extends WP_List_Table{
 
 	function  prepare_items() {
 		$this->_column_headers = array($this->get_columns(),array(),$this->get_sortable_columns());
+			$paged = $_REQUEST['paged']?? 1;
+		// set pagination
+		$this->set_pagination_args([
+			'total_items' => count($this->items),
+			'per_page' => 2,
+			'total_page' => ceil(count($this->items))
+		]);
+
    }
 
    function  column_default( $item, $column_name ) {
