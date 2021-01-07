@@ -11,7 +11,7 @@ class Person extends WP_List_Table{
 
 // data set here
    function set_data($data){
-   	$this->items = $data;
+   	$this->_items = $data;
    	    //$this->items = $data;
    }
 
@@ -45,11 +45,13 @@ class Person extends WP_List_Table{
 	function  prepare_items() {
 		$this->_column_headers = array($this->get_columns(),array(),$this->get_sortable_columns());
 			$paged = $_REQUEST['paged']?? 1;
+			$data_chunks = array_chunk($this->_items,2);
+			$this->items = $data_chunks[$paged-1];
 		// set pagination
 		$this->set_pagination_args([
-			'total_items' => count($this->items),
+			'total_items' => count($this->_items),
 			'per_page' => 2,
-			'total_page' => ceil(count($this->items))
+			'total_pages' => ceil(count($this->_items)/2)
 		]);
 
    }
